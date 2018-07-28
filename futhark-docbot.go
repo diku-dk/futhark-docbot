@@ -3,15 +3,15 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"fmt"
+	"html/template"
+	"io/ioutil"
+	"log"
 	"os"
 	"os/exec"
-	"io/ioutil"
 	"path/filepath"
-	"fmt"
-	"log"
-	"strings"
 	"regexp"
-	"html/template"
+	"strings"
 )
 
 type pkgpath = string
@@ -46,7 +46,7 @@ func mkDocForPkg(pkg pkgpath, v semver, outdir string) error {
 		return err
 	}
 
-	cmd_doc := exec.Command("futhark-doc", "lib/" + pkg, "-o", outdir_abs)
+	cmd_doc := exec.Command("futhark-doc", "lib/"+pkg, "-o", outdir_abs)
 	cmd_doc.Dir = tmpdir
 	if err := cmd_doc.Run(); err != nil {
 		return err
@@ -87,8 +87,6 @@ func versionTags(tags []string) (ret []semver) {
 	return ret
 }
 
-
-
 func processPkg(pkg pkgpath, vs []semver) (ret map[semver]string, err error) {
 	fmt.Printf("Handling %s...\n", pkg)
 	ret = make(map[semver]string)
@@ -112,7 +110,7 @@ func processPkg(pkg pkgpath, vs []semver) (ret map[semver]string, err error) {
 }
 
 func pkgVersions(pkg pkgpath) ([]semver, error) {
-	cmd := exec.Command("git", "ls-remote", "--tags", "https://" + pkg)
+	cmd := exec.Command("git", "ls-remote", "--tags", "https://"+pkg)
 	var out bytes.Buffer
 	cmd.Stdout = &out
 
