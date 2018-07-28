@@ -4,6 +4,11 @@ go:
   - "1.10"
   - "1.9"
 
+cache:
+  directories:
+    - pkgs
+  timeout: 300
+
 install:
   go build
 
