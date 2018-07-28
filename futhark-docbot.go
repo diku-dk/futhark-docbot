@@ -149,25 +149,25 @@ func processPkgs(pkgs []string) (ret map[pkgpath]map[semver]string, err error) {
 
 var templates = template.Must(template.ParseFiles("index.html"))
 
-func processPkgsInFile(f string) error {
-	pkgs, read_err := readPkgPaths(os.Args[1])
-	if read_err != nil {
-		return read_err
+func processPkgsInFile(f string) (err error) {
+	pkgs, err := readPkgPaths(f)
+	if err != nil {
+		return err
 	}
 
-	pkgdocs, proc_err := processPkgs(pkgs)
-	if proc_err != nil {
-		return proc_err
+	pkgdocs, err := processPkgs(pkgs)
+	if err != nil {
+		return err
 	}
 
-	html_out, html_out_err := os.Create("pkgs/index.html")
-	if html_out_err != nil {
-		return html_out_err
+	html_out, err := os.Create("pkgs/index.html")
+	if err != nil {
+		return err
 	}
 
 	html_writer := bufio.NewWriter(html_out)
-	if html_err := templates.ExecuteTemplate(html_writer, "index.html", pkgdocs); html_err != nil {
-		return html_err
+	if err = templates.ExecuteTemplate(html_writer, "index.html", pkgdocs); err != nil {
+		return err
 	}
 	html_writer.Flush()
 
