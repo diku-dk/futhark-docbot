@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html><head>
+    <meta charset="utf-8">
+    <title>Futhark Package List</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <h1>Futhark Package List</h1>
+
+    <ul id="packages">
+      {{range $pkg, $versions := .}}
+      <li class="package">
+        <a href="https://{{$pkg}}">{{$pkg}}</a>
+        <ul class="versions">
+          {{range $version, $dir := $versions}}
+          <li class="version">
+            <a href="{{$dir}}">{{$version}}</a>
+          </li>
+          {{end}}
+        </ul>
+      </li>
+      {{end}}
+    </ul>
+  </body>
+</html>
