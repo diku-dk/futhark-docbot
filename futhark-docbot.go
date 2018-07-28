@@ -123,7 +123,6 @@ func pkgVersions(pkg pkgpath) ([]semver, error) {
 }
 
 func processPkgs(pkgs []string) (ret map[pkgpath]map[semver]string, err error) {
-	pkgRevs := make(map[pkgpath][]semver)
 	ret = make(map[pkgpath]map[semver]string)
 
 	for _, pkg := range pkgs {
@@ -132,8 +131,6 @@ func processPkgs(pkgs []string) (ret map[pkgpath]map[semver]string, err error) {
 		if err != nil {
 			return nil, err
 		}
-
-		pkgRevs[pkg] = vs
 
 		m, err := processPkg(pkg, vs)
 		if err != nil {
