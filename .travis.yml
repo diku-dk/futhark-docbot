@@ -4,5 +4,8 @@ go:
   - "1.10"
   - "1.9"
 
+install:
+  go build
+
 script:
   go run futhark-docbot.go
