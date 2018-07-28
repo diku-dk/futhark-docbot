@@ -8,4 +8,4 @@ install:
   go build
 
 script:
-  go run futhark-docbot.go
+  go run futhark-docbot.go pkgpaths.txt
