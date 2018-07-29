@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 )
 
 type pkgpath = string
@@ -159,8 +160,16 @@ func processPkgsInFile(f string) (err error) {
 		return err
 	}
 
+	templateInfo := struct {
+		Pkgs map[pkgpath]map[semver]string
+		Date string
+	}{
+		pkgdocs,
+		time.Now().Format("Jan 2 15:04:05 MST 2006"),
+	}
+
 	html_writer := bufio.NewWriter(html_out)
-	if err = templates.ExecuteTemplate(html_writer, "index.html", pkgdocs); err != nil {
+	if err = templates.ExecuteTemplate(html_writer, "index.html", templateInfo); err != nil {
 		return err
 	}
 	html_writer.Flush()

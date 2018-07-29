@@ -1,25 +1,53 @@
 <!DOCTYPE HTML>
 <html><head>
     <meta charset="utf-8">
-    <title>Futhark Package List</title>
+    <title>List of Futhark Packages</title>
     <link href="style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <h1>Futhark Package List</h1>
+    <div id="header">
+      <h1>List of Futhark Packages</h1>
+    </div>
 
-    <ul id="packages">
-      {{range $pkg, $versions := .}}
-      <li class="package">
-        <a href="https://{{$pkg}}">{{$pkg}}</a>
-        <ul class="versions">
-          {{range $version, $dir := $versions}}
-          <li class="version">
-            <a href="{{$dir}}">{{$version}}</a>
-          </li>
-          {{end}}
-        </ul>
-      </li>
-      {{end}}
-    </ul>
+    <div id="content">
+
+      <p>
+        A package can be installed with <code>futhark-pkg
+        add <em>pkgpath</em> <em>version</em></code>.  The version
+        number may be omitted.  For more information, see
+        the <a href="http://futhark.readthedocs.io/en/latest/package-management.html">chapter
+        on package management in the Futhark User's Guide</a>.  Click
+        on a version number to obtain documentation for that version.
+      </p>
+
+      <table id="packages">
+        <thead>
+          <tr>
+            <td>Package path</td>
+            <td>Versions</td>
+          </tr>
+        </thead>
+        {{range $pkg, $versions := .Pkgs}}
+        <tr class="package">
+          <td>
+            <a href="https://{{$pkg}}">{{$pkg}}</a>
+          </td>
+          <td>
+            <ul class="versions">
+              {{range $version, $dir := $versions}}
+              <li class="version">
+                <a href="{{$dir}}">{{$version}}</a>
+              </li>
+              {{end}}
+            </ul>
+          </td>
+        </tr>
+        {{end}}
+      </table>
+    </div>
+
+    <div id="footer">
+      Index last updated on {{.Date}}
+    </div>
   </body>
 </html>
