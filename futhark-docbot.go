@@ -165,7 +165,7 @@ func processPkgsInFile(f string) (err error) {
 		Date string
 	}{
 		pkgdocs,
-		time.Now().Format("Jan 2 15:04:05 MST 2006"),
+		time.Now().Format("2 Jan 2006 15:04:05 MST"),
 	}
 
 	html_writer := bufio.NewWriter(html_out)
