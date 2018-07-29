@@ -3,10 +3,6 @@ body {
     font-family: sans-serif;
     padding: 0px;
     margin: 0px;
-    margin-top: 0em;
-    margin-left: 0em;
-    margin-right: 0em;
-    overflow-y: scroll;
     line-height: 1.4;
 }
 
@@ -34,23 +30,21 @@ td {
     vertical-align: top;
 }
 
-#header {
+#header, #footer {
     color: #fff9e5;
     background: #5f0220;
+}
+
+#header {
     padding-left: 1em;
 }
 
 #content {
-    padding-left: 1em;
-    padding-right: 1em;
-    width: 100%;
+    padding: 0 1em;
 }
 
 #footer {
-    color: #fff9e5;
-    background: #5f0220;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding: 0 1em;
 }
 
 #footer a, #footer a:visited {
