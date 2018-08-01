@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"sort"
 	"time"
 )
 
@@ -88,9 +89,8 @@ func versionTags(tags []string) (ret []semver) {
 	return ret
 }
 
-func processPkg(pkg pkgpath, vs []semver) (ret map[semver]string, err error) {
+func processPkg(pkg pkgpath, vs []semver) (ret []semver, err error) {
 	fmt.Printf("Handling %s...\n", pkg)
-	ret = make(map[semver]string)
 
 	for _, v := range vs {
 		d := docDir(pkg, v)
@@ -104,8 +104,10 @@ func processPkg(pkg pkgpath, vs []semver) (ret map[semver]string, err error) {
 		} else {
 			fmt.Printf("Skipping %s - already exists.\n", d)
 		}
-		ret[v] = d
+		ret = append(ret, v)
 	}
+
+	sort.Sort(sort.Reverse(sort.StringSlice(ret)))
 
 	return ret, nil
 }
@@ -123,8 +125,8 @@ func pkgVersions(pkg pkgpath) ([]semver, error) {
 	return versionTags(strings.Split(out.String(), "\n")), err
 }
 
-func processPkgs(pkgs []string) (ret map[pkgpath]map[semver]string, err error) {
-	ret = make(map[pkgpath]map[semver]string)
+func processPkgs(pkgs []string) (ret map[pkgpath][]semver, err error) {
+	ret = make(map[pkgpath][]semver)
 
 	for _, pkg := range pkgs {
 		vs, err := pkgVersions(pkg)
@@ -161,7 +163,7 @@ func processPkgsInFile(f string) (err error) {
 	}
 
 	templateInfo := struct {
-		Pkgs map[pkgpath]map[semver]string
+		Pkgs map[pkgpath][]semver
 		Date string
 	}{
 		pkgdocs,

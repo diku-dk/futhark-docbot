@@ -34,9 +34,9 @@
           </td>
           <td>
             <ul class="versions">
-              {{range $version, $dir := $versions}}
+              {{range $version := $versions}}
               <li class="version">
-                <a href="{{$dir}}">{{$version}}</a>
+                <a href="{{$pkg}}-{{$version}}/">{{$version}}</a>
               </li>
               {{end}}
             </ul>
