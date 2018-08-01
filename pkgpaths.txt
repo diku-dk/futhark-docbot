@@ -2,3 +2,4 @@ github.com/athas/vector
 github.com/athas/distance
 github.com/athas/fibs
 github.com/diku-dk/lmdif
+github.com/nqpz/fut0r
