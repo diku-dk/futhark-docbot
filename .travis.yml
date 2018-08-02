@@ -19,6 +19,7 @@ before_install:
 - "(cd futhark-nightly-linux-x86_64/ && PREFIX=$HOME/.local make install)"
 
 install:
+  - git checkout pkgs/style.css # Might be overwritten by cache.
   - go build
 
 script:
