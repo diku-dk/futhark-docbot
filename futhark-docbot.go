@@ -11,8 +11,8 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
-	"strings"
 	"sort"
+	"strings"
 	"time"
 )
 
@@ -79,9 +79,9 @@ func readPkgPaths(f string) (ret []Pkg, err error) {
 		}
 		parts := strings.SplitN(pkg, " ", 2)
 		if len(parts) == 2 {
-			ret = append(ret, Pkg {parts[0], parts[1]})
+			ret = append(ret, Pkg{parts[0], parts[1]})
 		} else {
-			ret = append(ret, Pkg {parts[0], ""})
+			ret = append(ret, Pkg{parts[0], ""})
 		}
 	}
 
@@ -137,10 +137,10 @@ func pkgVersions(pkg pkgpath) ([]semver, error) {
 }
 
 type PkgInfo struct {
-	Path pkgpath
-	Newest semver
+	Path     pkgpath
+	Newest   semver
 	Versions []semver
-	Desc string
+	Desc     string
 }
 
 func processPkgs(pkgs []Pkg) (ret []PkgInfo, err error) {
@@ -154,7 +154,7 @@ func processPkgs(pkgs []Pkg) (ret []PkgInfo, err error) {
 		if err != nil {
 			return nil, err
 		}
-		ret = append(ret, PkgInfo {
+		ret = append(ret, PkgInfo{
 			pkg.Path,
 			m[0],
 			m,
