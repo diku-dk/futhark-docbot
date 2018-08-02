@@ -57,7 +57,12 @@ func mkDocForPkg(pkg pkgpath, v semver, outdir string) error {
 	return nil
 }
 
-func readPkgPaths(f string) ([]pkgpath, error) {
+type Pkg struct {
+	Path pkgpath
+	Desc string
+}
+
+func readPkgPaths(f string) (ret []Pkg, err error) {
 	pkgsFile, err := os.Open(f)
 	if err != nil {
 		return nil, err
@@ -67,14 +72,20 @@ func readPkgPaths(f string) ([]pkgpath, error) {
 	scanner := bufio.NewScanner(pkgsFile)
 	scanner.Split(bufio.ScanLines)
 
-	var pkgs []pkgpath
-
 	for scanner.Scan() {
 		var pkg = scanner.Text()
-		pkgs = append(pkgs, pkg)
+		if len(pkg) == 0 || pkg[0] == '#' {
+			continue
+		}
+		parts := strings.SplitN(pkg, " ", 2)
+		if len(parts) == 2 {
+			ret = append(ret, Pkg {parts[0], parts[1]})
+		} else {
+			ret = append(ret, Pkg {parts[0], ""})
+		}
 	}
 
-	return pkgs, nil
+	return ret, nil
 }
 
 var versionTagRegex = regexp.MustCompile("/v([0-9]+.[0-9]+.[0-9]+)$")
@@ -125,20 +136,30 @@ func pkgVersions(pkg pkgpath) ([]semver, error) {
 	return versionTags(strings.Split(out.String(), "\n")), err
 }
 
-func processPkgs(pkgs []string) (ret map[pkgpath][]semver, err error) {
-	ret = make(map[pkgpath][]semver)
+type PkgInfo struct {
+	Path pkgpath
+	Newest semver
+	Versions []semver
+	Desc string
+}
 
+func processPkgs(pkgs []Pkg) (ret []PkgInfo, err error) {
 	for _, pkg := range pkgs {
-		vs, err := pkgVersions(pkg)
+		vs, err := pkgVersions(pkg.Path)
 		if err != nil {
 			return nil, err
 		}
 
-		m, err := processPkg(pkg, vs)
+		m, err := processPkg(pkg.Path, vs)
 		if err != nil {
 			return nil, err
 		}
-		ret[pkg] = m
+		ret = append(ret, PkgInfo {
+			pkg.Path,
+			m[0],
+			m,
+			pkg.Desc,
+		})
 	}
 
 	return ret, err
@@ -163,7 +184,7 @@ func processPkgsInFile(f string) (err error) {
 	}
 
 	templateInfo := struct {
-		Pkgs map[pkgpath][]semver
+		Pkgs []PkgInfo
 		Date string
 	}{
 		pkgdocs,

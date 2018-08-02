@@ -1,5 +1,8 @@
-github.com/athas/vector
-github.com/athas/distance
-github.com/athas/fibs
-github.com/diku-dk/lmdif
-github.com/nqpz/fut0r
+# Please keep this list in order.
+# Line-wrapping is not supported, and comment lines must
+# have '#' in the first column.
+github.com/athas/distance Distance functions for arbitrary-dimensional spaces.
+github.com/athas/fibs Parallel and sequential Fibonacci numbers.
+github.com/athas/vector Arbitrary-dimensional vectors; particularly efficient for low static dimensions.
+github.com/diku-dk/lmdif Nonlinear parameter calibration.
+github.com/nqpz/fut0r Image filters and transformations.

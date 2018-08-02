@@ -51,18 +51,6 @@ td {
     color: #fff9e5;
 }
 
-#packages {
-    margin: 1em;
-}
-
-#packages thead {
-    font-weight: bold;
-}
-
-#packages td {
-    padding-right: 1em;
-}
-
 .versions {
     display: inline;
     padding-left: 0;
@@ -70,4 +58,15 @@ td {
 
 .versions li {
     display: inline;
+}
+
+#packages > dt {
+    background: #ffcc7a;
+    font-family: monospace;
+    border-top: 1px solid #5f021f;
+    margin-top: 1em;
+}
+
+.packagename {
+    font-weight: bold;
 }

@@ -13,45 +13,38 @@
 
       <p>
         A package can be installed with <code>futhark-pkg
-        add <em>pkgpath</em> <em>version</em></code>.  The version
+          add <em>pkgpath</em> <em>version</em></code>.  The version
         number may be omitted.  For more information, see
         the <a href="http://futhark.readthedocs.io/en/latest/package-management.html">chapter
-        on package management in the Futhark User's Guide</a>.  Click
+          on package management in the Futhark User's Guide</a>.  Click
         on a version number to obtain documentation for that version.
       </p>
 
-      <table id="packages">
-        <thead>
-          <tr>
-            <td>Package path</td>
-            <td>Versions</td>
-          </tr>
-        </thead>
-        {{range $pkg, $versions := .Pkgs}}
-        <tr class="package">
-          <td>
-            <a href="https://{{$pkg}}">{{$pkg}}</a>
-          </td>
-          <td>
-            <ul class="versions">
-              {{range $version := $versions}}
-              <li class="version">
-                <a href="{{$pkg}}-{{$version}}/">{{$version}}</a>
-              </li>
-              {{end}}
-            </ul>
-          </td>
-        </tr>
+      <dl id="packages">
+        {{range $pkg := .Pkgs}}
+        <dt>
+          <a class="packagename" href="https://{{$pkg.Path}}">{{$pkg.Path}}</a>
+          (<a href="{{$pkg.Path}}-{{$pkg.Newest}}">docs</a>;
+          <ul class="versions">
+            {{range $version := $pkg.Versions}}
+            <li class="version">
+              <a href="{{$pkg.Path}}-{{$version}}/">{{$version}}</a>
+            </li>
+            {{end}}
+          </ul>)
+        </dt>
+        <dd>
+          {{$pkg.Desc}}
+        </dd>
         {{end}}
-      </table>
-      
+      </dl>
+
       <p>
         See the <a href="https://github.com/diku-dk/futhark-docbot/blob/master/README.md"><code>README</code>
-        file</a> in the <a href="https://github.com/diku-dk/futhark-docbot"><code>futhark-docbot</code>
-        repository</a> for the procedure to add your Futhark package
+          file</a> in the <a href="https://github.com/diku-dk/futhark-docbot"><code>futhark-docbot</code>
+          repository</a> for the procedure to add your Futhark package
         to the list.
       </p>
-      
     </div>
 
     <div id="footer">
