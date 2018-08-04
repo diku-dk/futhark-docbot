@@ -5,5 +5,6 @@ github.com/athas/distance Distance functions for arbitrary-dimensional spaces.
 github.com/athas/fibs Parallel and sequential Fibonacci numbers.
 github.com/athas/vector Arbitrary-dimensional vectors; particularly efficient for low static dimensions.
 github.com/diku-dk/cpprandom C++-inspired random number generation.
+github.com/diku-dk/date Simple date handling.
 github.com/diku-dk/lmdif Nonlinear parameter calibration.
 github.com/nqpz/fut0r Image filters and transformations.
