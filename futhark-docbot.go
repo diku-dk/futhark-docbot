@@ -161,7 +161,7 @@ func processPkgs(pkgs []Pkg) (ret []PkgInfo, err error) {
 			return nil, err
 		}
 		// Ignore packages with no working versions.
-		if len(m) > 1 {
+		if len(m) > 0 {
 			ret = append(ret, PkgInfo{
 				pkg.Path,
 				m[0],
