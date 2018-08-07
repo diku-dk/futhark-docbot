@@ -57,7 +57,20 @@ td {
 }
 
 .versions li {
+    display: none;
+}
+
+.versions .versions_all {
     display: inline;
+    font-style: italic;
+}
+
+.versions:hover li {
+    display: inline;
+}
+
+.versions:hover .versions_all {
+    display: none;
 }
 
 #packages > dt {

@@ -26,6 +26,7 @@
           <a class="packagename" href="https://{{$pkg.Path}}">{{$pkg.Path}}</a>
           (<a href="{{$pkg.Path}}-{{$pkg.Newest}}/">docs</a>;
           <ul class="versions">
+            <li class="versions_all">...</li>
             {{range $version := $pkg.Versions}}
             <li class="version">
               <a href="{{$pkg.Path}}-{{$version}}/">{{$version}}</a>
