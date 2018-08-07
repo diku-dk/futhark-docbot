@@ -114,6 +114,7 @@ func processPkg(pkg pkgpath, vs []semver) (ret []semver, err error) {
 			err = mkDocForPkg(pkg, v, pkgs_d)
 			if err != nil {
 				fmt.Printf("Failed: %v\n", err)
+				continue
 			}
 		} else {
 			fmt.Printf("Skipping %s - already exists.\n", d)
