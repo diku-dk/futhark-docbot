@@ -20,7 +20,7 @@ type pkgpath = string
 type semver = string
 
 func docDir(pkg pkgpath, v semver) string {
-	return pkg + "-" + v
+	return pkg + "/" + v
 }
 
 func mkDocForPkg(pkg pkgpath, v semver, outdir string) error {
