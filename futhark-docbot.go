@@ -39,19 +39,19 @@ func mkDocForPkg(pkg pkgpath, v semver, outdir string) error {
 	cmd_add := exec.Command("futhark-pkg", "add", pkg, v)
 	cmd_add.Dir = tmpdir
 	if err := cmd_add.Run(); err != nil {
-		return err
+		return fmt.Errorf("futhark-pkg add %s %s: %v", pkg, v, err)
 	}
 
 	cmd_sync := exec.Command("futhark-pkg", "sync")
 	cmd_sync.Dir = tmpdir
 	if err := cmd_sync.Run(); err != nil {
-		return err
+		return fmt.Errorf("futhark-pkg sync: %v", err)
 	}
 
 	cmd_doc := exec.Command("futhark-doc", "lib/"+pkg, "-o", outdir_abs)
 	cmd_doc.Dir = tmpdir
 	if err := cmd_doc.Run(); err != nil {
-		return err
+		return fmt.Errorf("futhark-doc %s -o %s: %v", "lib/"+pkg, outdir_abs, err)
 	}
 
 	return nil
@@ -124,13 +124,14 @@ func processPkg(pkg pkgpath, vs []semver) (ret []semver, err error) {
 }
 
 func pkgVersions(pkg pkgpath) ([]semver, error) {
-	cmd := exec.Command("git", "ls-remote", "--tags", "https://"+pkg)
+	pkg_url := "https://"+pkg
+	cmd := exec.Command("git", "ls-remote", "--tags", pkg_url)
 	var out bytes.Buffer
 	cmd.Stdout = &out
 
 	err := cmd.Run()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("git ls-remote --tags %s: %v", pkg_url, err)
 	}
 
 	return versionTags(strings.Split(out.String(), "\n")), err
