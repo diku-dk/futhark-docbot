@@ -9,5 +9,6 @@ github.com/diku-dk/complex Complex numbers.
 github.com/diku-dk/cpprandom C++-inspired random number generation.
 github.com/diku-dk/date Simple date handling.
 github.com/diku-dk/lmdif Nonlinear parameter calibration.
+github.com/diku-dk/sobol Sobol numbers; quasi-random multi-dimensional sequences
 github.com/diku-dk/sorts Various functions for sorting.
 github.com/nqpz/fut0r Image filters and transformations.
