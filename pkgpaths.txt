@@ -11,6 +11,7 @@ github.com/diku-dk/date Simple date handling.
 github.com/diku-dk/fft Fast Fourier Transformations.
 github.com/diku-dk/linalg Linear algebra operations.
 github.com/diku-dk/lmdif Nonlinear parameter calibration.
+github.com/diku-dk/segmented Irregular segmented operations.
 github.com/diku-dk/sobol Sobol numbers; quasi-random multi-dimensional sequences
 github.com/diku-dk/sorts Various functions for sorting.
 github.com/nqpz/fut0r Image filters and transformations.
