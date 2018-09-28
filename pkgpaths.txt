@@ -14,4 +14,5 @@ github.com/diku-dk/lmdif Nonlinear parameter calibration.
 github.com/diku-dk/segmented Irregular segmented operations.
 github.com/diku-dk/sobol Sobol numbers; quasi-random multi-dimensional sequences
 github.com/diku-dk/sorts Various functions for sorting.
+github.com/diku-dk/statistics Statistics functions.
 github.com/nqpz/fut0r Image filters and transformations.
