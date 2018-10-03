@@ -103,6 +103,29 @@ func versionTags(tags []string) (ret []semver) {
 	return ret
 }
 
+func redirectForLatest(pkg pkgpath, v semver) (err error) {
+	latest_d := "pkgs/" + pkg + "/latest"
+	_ = os.Mkdir(latest_d, os.ModePerm)
+	html_out, err := os.Create(latest_d + "/index.html")
+
+	if err != nil {
+		return err
+	}
+
+	html_writer := bufio.NewWriter(html_out)
+	templateInfo := struct {
+		Url string
+	}{
+		"../" + v,
+	}
+	if err = templates.ExecuteTemplate(html_writer, "redirect.html", templateInfo); err != nil {
+		return err
+	}
+	html_writer.Flush()
+
+	return err
+}
+
 func processPkg(pkg pkgpath, vs []semver) (ret []semver, err error) {
 	fmt.Printf("Handling %s...\n", pkg)
 
@@ -123,6 +146,13 @@ func processPkg(pkg pkgpath, vs []semver) (ret []semver, err error) {
 	}
 
 	sort.Sort(sort.Reverse(sort.StringSlice(ret)))
+
+	// Construct a redirect to the latest version, if it exists.
+	if len(ret) > 0 {
+		if err = redirectForLatest(pkg, ret[0]); err != nil {
+			return nil, err
+		}
+	}
 
 	return ret, nil
 }
@@ -174,7 +204,7 @@ func processPkgs(pkgs []Pkg) (ret []PkgInfo, err error) {
 	return ret, err
 }
 
-var templates = template.Must(template.ParseFiles("index.html"))
+var templates = template.Must(template.ParseFiles("index.html", "redirect.html"))
 
 func processPkgsInFile(f string) (err error) {
 	pkgs, err := readPkgPaths(f)
