@@ -5,8 +5,10 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
+	"io"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -106,11 +108,12 @@ func versionTags(tags []string) (ret []semver) {
 func redirectForLatest(pkg pkgpath, v semver) (err error) {
 	latest_d := "pkgs/" + pkg + "/latest"
 	_ = os.Mkdir(latest_d, os.ModePerm)
-	html_out, err := os.Create(latest_d + "/index.html")
 
+	html_out, err := os.Create(latest_d + "/index.html")
 	if err != nil {
 		return err
 	}
+	defer html_out.Close()
 
 	html_writer := bufio.NewWriter(html_out)
 	templateInfo := struct {
@@ -122,6 +125,23 @@ func redirectForLatest(pkg pkgpath, v semver) (err error) {
 		return err
 	}
 	html_writer.Flush()
+
+	// Also create an SVG file listing the most recently documented version.
+	svg_url := "https://img.shields.io/badge/docs-v" + v + "-%235f021f.svg"
+
+	svg_out, err := os.Create("pkgs/" + pkg + "/status.svg")
+	if err != nil {
+		return err
+	}
+	defer svg_out.Close()
+
+	resp, err := http.Get(svg_url)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	_, err = io.Copy(svg_out, resp.Body)
 
 	return err
 }
@@ -158,7 +178,7 @@ func processPkg(pkg pkgpath, vs []semver) (ret []semver, err error) {
 }
 
 func pkgVersions(pkg pkgpath) ([]semver, error) {
-	pkg_url := "https://"+pkg
+	pkg_url := "https://" + pkg
 	cmd := exec.Command("git", "ls-remote", "--tags", pkg_url)
 	var out bytes.Buffer
 	cmd.Stdout = &out
