@@ -38,25 +38,25 @@ func mkDocForPkg(pkg pkgpath, v semver, outdir string) error {
 
 	defer os.RemoveAll(tmpdir)
 
-	cmd_add := exec.Command("futhark-pkg", "add", pkg, v)
+	cmd_add := exec.Command("futhark pkg", "add", pkg, v)
 	cmd_add.Dir = tmpdir
 	cmd_add.Stderr = os.Stderr
 	if err := cmd_add.Run(); err != nil {
-		return fmt.Errorf("futhark-pkg add %s %s: %v", pkg, v, err)
+		return fmt.Errorf("futhark pkg add %s %s: %v", pkg, v, err)
 	}
 
-	cmd_sync := exec.Command("futhark-pkg", "sync")
+	cmd_sync := exec.Command("futhark pkg", "sync")
 	cmd_sync.Dir = tmpdir
 	cmd_sync.Stderr = os.Stderr
 	if err := cmd_sync.Run(); err != nil {
-		return fmt.Errorf("futhark-pkg sync: %v", err)
+		return fmt.Errorf("futhark pkg sync: %v", err)
 	}
 
-	cmd_doc := exec.Command("futhark-doc", "lib/"+pkg, "-o", outdir_abs)
+	cmd_doc := exec.Command("futhark doc", "lib/"+pkg, "-o", outdir_abs)
 	cmd_doc.Dir = tmpdir
 	cmd_doc.Stderr = os.Stderr
 	if err := cmd_doc.Run(); err != nil {
-		return fmt.Errorf("futhark-doc %s -o %s: %v", "lib/"+pkg, outdir_abs, err)
+		return fmt.Errorf("futhark doc %s -o %s: %v", "lib/"+pkg, outdir_abs, err)
 	}
 
 	return nil
