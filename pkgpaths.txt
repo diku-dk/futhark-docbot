@@ -18,3 +18,4 @@ github.com/diku-dk/sobol Sobol numbers; quasi-random multi-dimensional sequences
 github.com/diku-dk/sorts Various functions for sorting.
 github.com/diku-dk/statistics Statistics functions.
 github.com/nqpz/fut0r Image filters and transformations.
+github.com/vmchale/img-fut Image processing.
