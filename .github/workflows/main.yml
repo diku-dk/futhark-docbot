@@ -25,6 +25,7 @@ jobs:
       with:
         path: |
           pkgs
+        key: ${{ runner.os }}-pkgs
 
     - name: Prepare
       run: |
