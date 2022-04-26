@@ -198,44 +198,44 @@ func purgeStatusImage(pkg pkgpath) error {
 	readme_url := fmt.Sprintf("http://%s/blob/master/README.md", pkg)
 	// Specifically, it must contain this string:
 	status_url := fmt.Sprintf("https://futhark-lang.org/pkgs/%s/status.svg", pkg)
-	
+
 	resp, err := http.Get(readme_url)
 	if err != nil {
 		return err
 	}
-	
+
 	buf := new(bytes.Buffer)
 	_, err = buf.ReadFrom(resp.Body)
 	if err != nil {
 		return err
 	}
 	body := buf.String()
-	
+
 	if !strings.Contains(body, status_url) {
 		return nil // No need to continue, but not an error.
 	}
-	
+
 	re, err := regexp.Compile(fmt.Sprintf("<img src=\"([^\"]+)\"[^>]* data-canonical-src=\"%s\"[^>]*>", status_url))
 	if err != nil {
 		return err
 	}
-	
+
 	tmp := re.FindStringSubmatch(body)
 	if tmp[1] == "" {
 		return fmt.Errorf("Somehow the URL was now empty?")
 	}
 	url := tmp[1]
-	
+
 	fmt.Printf("Purging status image %s...\n", url)
 	req, err := http.NewRequest("PURGE", url, nil)
 	if err != nil {
 		return err
 	}
-	
+
 	if _, err := http.DefaultClient.Do(req); err != nil {
 		return err
 	}
-	
+
 	return nil
 }
 
