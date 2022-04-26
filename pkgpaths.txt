@@ -16,6 +16,7 @@ github.com/diku-dk/pickle Serialisation of Futhark values to byte sequences.
 github.com/diku-dk/segmented Irregular segmented operations.
 github.com/diku-dk/sobol Sobol numbers; quasi-random multi-dimensional sequences
 github.com/diku-dk/sorts Various functions for sorting.
+github.com/diku-dk/sparse Sparse matrix operations.
 github.com/diku-dk/statistics Statistics functions.
 github.com/nqpz/fut0r Image filters and transformations.
 github.com/vmchale/img-fut Image processing.
