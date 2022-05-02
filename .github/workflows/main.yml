@@ -30,7 +30,7 @@ jobs:
       with:
         path: |
           pkgs
-        key: ${{ runner.os }}-pkgs
+        key: ${{ runner.os }}-pkgs-${{ hashFiles('pkgs/') }}
 
     - name: Prepare
       run: |
