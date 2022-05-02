@@ -18,6 +18,12 @@ jobs:
 
     - uses: actions/setup-go@v1
 
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.SSHKEY }}
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
+
     - name: Install Futhark
       run: |
           wget http://futhark-lang.org/releases/futhark-nightly-linux-x86_64.tar.xz
@@ -37,12 +43,6 @@ jobs:
     - name: Generate docs
       run: |
         ./futhark-docbot pkgpaths.txt
-
-    - name: Install SSH key
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.SSHKEY }}
-        known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
     - name: Upload docs
       run: |
