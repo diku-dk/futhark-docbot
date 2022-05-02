@@ -152,17 +152,29 @@ func processPkg(pkg pkgpath, vs []semver) (ret []semver, err error) {
 	for _, v := range vs {
 		d := docDir(pkg, v)
 		pkgs_d := "pkgs/" + d
+		success := true
 		if _, err := os.Stat(pkgs_d); os.IsNotExist(err) {
 			fmt.Printf("Building %s.\n", pkgs_d)
 			err = mkDocForPkg(pkg, v, pkgs_d)
+
 			if err != nil {
 				fmt.Printf("Failed: %v\n", err)
-				continue
+				success = false
+			}
+
+			// We create the directory anyway so later
+			// invocations of futhark-docbot will not look
+			// at this package again.
+			err = os.MkdirAll(pkgs_d, os.ModePerm)
+			if err != nil {
+				fmt.Printf("Failed to create directory: %v\n", err)
 			}
 		} else {
 			fmt.Printf("Skipping %s - already exists.\n", d)
 		}
-		ret = append(ret, v)
+		if (success) {
+			ret = append(ret, v)
+		}
 	}
 
 	sort.Sort(sort.Reverse(sort.StringSlice(ret)))
