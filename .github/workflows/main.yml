@@ -39,7 +39,7 @@ jobs:
 
     - name: Generate docs
       run: |
-        go run futhark-docbot.go pkgpaths.txt
+        ./futhark-docbot pkgpaths.txt
 
     - name: Install SSH key
       uses: shimataro/ssh-key-action@v2
