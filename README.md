@@ -1,6 +1,6 @@
 # futhark-docbot
 
-This program uses `futhark-pkg` and `futhark-doc` to automatically
+This program uses `futhark pkg` and `futhark doc` to automatically
 generate an index of known Futhark packages.  Specifically, it reads a
 list of package paths from `pkgpaths.txt` and makes the index and
 documentation for each package [available on the Futhark
