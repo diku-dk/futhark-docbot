@@ -25,12 +25,9 @@ jobs:
           (cd futhark-nightly-linux-x86_64/ && PREFIX=$HOME/.local make install)
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-    - uses: pat-s/always-upload-cache@v3.0.1
-      name: Cache
-      with:
-        path: |
-          pkgs
-        key: ${{ runner.os }}-pkgs
+    - name: Retrieve previous docs
+      run: |
+        rsync -r --quiet futhark@sigkill.dk:/var/www/htdocs/futhark-lang.org/pkgs $PWD
 
     - name: Prepare
       run: |
