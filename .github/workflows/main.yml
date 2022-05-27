@@ -33,7 +33,7 @@ jobs:
 
     - name: Retrieve previous docs
       run: |
-        # rsync -r --quiet futhark@sigkill.dk:/var/www/htdocs/futhark-lang.org/pkgs $PWD
+        rsync -r --quiet futhark@sigkill.dk:/var/www/htdocs/futhark-lang.org/pkgs $PWD
 
     - name: Prepare
       run: |
