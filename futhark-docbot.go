@@ -181,7 +181,7 @@ func processPkg(pkg pkgpath, vs []semver) (ret []semver, err error) {
 		}
 	}
 
-	sort.Sort(version.Collection(ret))
+	sort.Sort(sort.Reverse(version.Collection(ret)))
 
 	// Construct a redirect to the latest version, if it exists.
 	if len(ret) > 0 {
