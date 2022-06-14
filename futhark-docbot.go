@@ -17,12 +17,13 @@ import (
 	"strings"
 	"time"
 )
+import "github.com/hashicorp/go-version"
 
 type pkgpath = string
-type semver = string
+type semver = *version.Version
 
 func docDir(pkg pkgpath, v semver) string {
-	return pkg + "/" + v
+	return pkg + "/" + v.String()
 }
 
 func mkDocForPkg(pkg pkgpath, v semver, outdir string) error {
@@ -38,7 +39,7 @@ func mkDocForPkg(pkg pkgpath, v semver, outdir string) error {
 
 	defer os.RemoveAll(tmpdir)
 
-	cmd_add := exec.Command("futhark", "pkg", "add", pkg, v)
+	cmd_add := exec.Command("futhark", "pkg", "add", pkg, v.String())
 	cmd_add.Dir = tmpdir
 	cmd_add.Stderr = os.Stderr
 	if err := cmd_add.Run(); err != nil {
@@ -99,7 +100,10 @@ func versionTags(tags []string) (ret []semver) {
 	for _, tag := range tags {
 		m := versionTagRegex.FindStringSubmatch(tag)
 		if m != nil {
-			ret = append(ret, m[1])
+			v,_ := version.NewSemver(m[1])
+			if v != nil {
+				ret = append(ret, v)
+			}
 		}
 	}
 	return ret
@@ -119,7 +123,7 @@ func redirectForLatest(pkg pkgpath, v semver) (err error) {
 	templateInfo := struct {
 		Url string
 	}{
-		"../" + v,
+		"../" + v.String(),
 	}
 	if err = templates.ExecuteTemplate(html_writer, "redirect.html", templateInfo); err != nil {
 		return err
@@ -127,7 +131,7 @@ func redirectForLatest(pkg pkgpath, v semver) (err error) {
 	html_writer.Flush()
 
 	// Also create an SVG file listing the most recently documented version.
-	svg_url := "https://img.shields.io/badge/docs-v" + v + "-%235f021f.svg"
+	svg_url := "https://img.shields.io/badge/docs-v" + v.String() + "-%235f021f.svg"
 
 	svg_out, err := os.Create("pkgs/" + pkg + "/status.svg")
 	if err != nil {
@@ -177,7 +181,7 @@ func processPkg(pkg pkgpath, vs []semver) (ret []semver, err error) {
 		}
 	}
 
-	sort.Sort(sort.Reverse(sort.StringSlice(ret)))
+	sort.Sort(version.Collection(ret))
 
 	// Construct a redirect to the latest version, if it exists.
 	if len(ret) > 0 {
