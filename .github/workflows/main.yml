@@ -38,6 +38,7 @@ jobs:
     - name: Prepare
       run: |
         git checkout pkgs/style.css # Might be overwritten by cache.
+        go get
         go build
 
     - name: Generate docs
