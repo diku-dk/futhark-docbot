@@ -237,6 +237,9 @@ func purgeStatusImage(pkg pkgpath) error {
 	}
 
 	tmp := re.FindStringSubmatch(body)
+	if tmp == nil {
+		return fmt.Errorf("%s: Could not find URL for status image", pkg)
+	}
 	if tmp[1] == "" {
 		return fmt.Errorf("Somehow the URL was now empty?")
 	}
