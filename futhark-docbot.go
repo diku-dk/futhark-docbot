@@ -231,7 +231,7 @@ func purgeStatusImage(pkg pkgpath) error {
 		return nil // No need to continue, but not an error.
 	}
 
-	re, err := regexp.Compile(fmt.Sprintf("<img src=\"([^\"]+)\"[^>]* data-canonical-src=\"%s\"[^>]*>", status_url))
+	re, err := regexp.Compile(fmt.Sprintf("src=\\\\\"(https://camo[^\\\\]+)\\\\\"[^>]* data-canonical-src=\\\\\"%s\\\\\"[^>]*>", status_url))
 	if err != nil {
 		return err
 	}
